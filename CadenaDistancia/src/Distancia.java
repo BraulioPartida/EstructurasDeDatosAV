@@ -24,7 +24,7 @@ public class Distancia {
     }
 
     public static void main(String[] args) {
-        System.out.println(distancia("casa", "calle"));
+        System.out.println(distancia("fernando", "ernando"));
     }
 
 }

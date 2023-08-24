@@ -7,7 +7,7 @@ public class InterseccionArray {
             if (pertenece(array1, t)) {
 
             }
-            cont++;
+
         }
         return cont;
     }
@@ -34,7 +34,7 @@ public class InterseccionArray {
     public static void main(String[] args) {
         InterseccionArray ia = new InterseccionArray();
         for (int i = 0; i < 100; i++) {
-            System.out.println((int) Math.pow(i, 2) + " " + ia.interseccion(ia.randomArr(i), ia.randomArr(i)) + x);
+            System.out.println((int) Math.pow(i, 2) + " " + (ia.interseccion(ia.randomArr(i), ia.randomArr(i)) + x));
         }
     }
 

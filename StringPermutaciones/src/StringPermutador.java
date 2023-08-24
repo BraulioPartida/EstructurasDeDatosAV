@@ -1,13 +1,30 @@
 public class StringPermutador {
+    private static int x = 0;
+
+    public static int calcularFactorial(int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("El factorial no está definido para números negativos.");
+        }
+        if (n == 0 || n == 1) {
+            return 1;
+        } else {
+            int factorial = 1;
+            for (int i = 2; i <= n; i++) {
+                factorial *= i;
+            }
+            return factorial;
+        }
+    }
 
     public static void permute(String str, int left, int right) {
         if (left == right) {
-            System.out.println(str);
+
         } else {
             for (int i = left; i <= right; i++) {
                 str = swap(str, left, i);
                 permute(str, left + 1, right);
                 str = swap(str, left, i); // backtrack
+                x = x + 1;
             }
         }
     }
@@ -20,8 +37,23 @@ public class StringPermutador {
         return new String(charArray);
     }
 
+    public static String randomString(int n) {
+        StringBuilder text = new StringBuilder();
+
+        for (int i = 0; i < n; i++) {
+            text.append((char) (Math.random() * 100 + 1));
+
+        }
+
+        return text.toString();
+    }
+
     public static void main(String[] args) {
-        String input = "abc";
-        permute(input, 0, input.length() - 1);
+
+        for (int i = 0; i < 100; i++) {
+            String input = randomString(i);
+            permute(input, 0, input.length() - 1);
+            System.out.println(calcularFactorial(i) + " " + x);
+        }
     }
 }

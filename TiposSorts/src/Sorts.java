@@ -1,4 +1,6 @@
 public class Sorts {
+    private static int quickCont = 0;
+
     public static <T extends Comparable<T>> void quickSort(T[] datos, int inicio, int fin) {
         if (inicio < fin) {
             int pivote = particion(datos, inicio, fin);
@@ -13,6 +15,7 @@ public class Sorts {
         int i = (inicio - 1);
 
         for (int j = inicio; j < fin; j++) {
+            quickCont += 2;
             if (arr[j].compareTo(pivote) < 0) {
                 i++;
 
@@ -91,16 +94,76 @@ public class Sorts {
         }
     }
 
+    public static <T extends Comparable<T>> void mergeSort(T[] arr, int inicio, int fin) {
+        if (inicio < fin) {
+
+            int mitad = (inicio + fin) / 2;
+
+            // Ordernar la mitad izquierda y la mitad derecha del arreglo
+            mergeSort(arr, inicio, mitad);
+            mergeSort(arr, mitad + 1, fin);
+
+            // Combina las mitades ordenadas
+            merge(arr, inicio, mitad, fin);
+        }
+    }
+
+    public static <T extends Comparable<T>> void merge(T[] arr, int inicio, int mitad, int fin) {
+
+        int tamañoIzq = mitad - inicio + 1;
+        int tamañoDerecha = fin - mitad;
+
+        T izquierda[] = (T[]) new Comparable[tamañoIzq];
+        T derecha[] = (T[]) new Comparable[tamañoDerecha];
+
+        for (int i = 0; i < tamañoIzq; ++i) {
+            izquierda[i] = arr[inicio + i];
+        }
+
+        for (int j = 0; j < tamañoDerecha; ++j)
+            derecha[j] = arr[mitad + 1 + j];
+
+        int i = 0, j = 0;
+
+        int k = inicio;
+        while (i < tamañoIzq && j < tamañoDerecha) {
+            if (izquierda[i].compareTo(derecha[j]) <= 0) {
+                arr[k] = izquierda[i];
+                i++;
+            } else {
+                arr[k] = derecha[j];
+                j++;
+
+            }
+            k++;
+        }
+
+        while (i < tamañoIzq) {
+            arr[k] = izquierda[i];
+            i++;
+            k++;
+        }
+
+        while (j < tamañoDerecha) {
+            arr[k] = derecha[j];
+            j++;
+            k++;
+        }
+    }
+
     public static void main(String[] args) {
-        Integer[] arr = { 5, 4, 3, 2, 1 };
+        Integer[] arr = { 64, 34, 25, 12, 22, 11, 90 };
+
         for (Integer integer : arr) {
-            System.out.println(integer);
+            System.out.print(integer + " ");
         }
-        System.out.println("\n");
-        quickSort(arr, 0, arr.length - 1);
-        for (Integer i : arr) {
-            System.out.println(i);
+
+        mergeSort(arr, 0, arr.length - 1);
+        System.out.println("\nMergeSort: ");
+        for (Integer integer : arr) {
+            System.out.print(integer + " ");
         }
+
     }
 
 }

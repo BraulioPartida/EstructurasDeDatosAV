@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class PeliculasMain extends Sorts {
+public class PeliculasMain {
     private static int contb = 0, contq = 0, contm = 0, contiO = 0, conts = 0, contiM = 0;
 
     public static <T extends Comparable<T>> void quickSort(T[] datos, int inicio, int fin) {
@@ -224,7 +224,7 @@ public class PeliculasMain extends Sorts {
                         break;
 
                     case 4:
-                        pelis = meter(8000, arr);
+                        pelis = meter(13000, arr);
                         break;
                 }
 
@@ -238,6 +238,7 @@ public class PeliculasMain extends Sorts {
                     case 3:
                         revolverArreglo(pelis);
                         break;
+
                 }
 
                 switch (h) {
@@ -246,34 +247,40 @@ public class PeliculasMain extends Sorts {
                         bubbleSort(pelis);
                         long endTime = (System.currentTimeMillis() - startTime);
                         System.out.println(contb + " endetime: " + endTime);
+                        contb = 0;
                         break;
                     case 1:
                         startTime = System.currentTimeMillis();
                         mergeSort(pelis, 0, pelis.length - 1);
                         endTime = (System.currentTimeMillis() - startTime);
                         System.out.println(contm + " endetime: " + endTime);
-
+                        contm = 0;
                         break;
                     case 2:
                         startTime = System.currentTimeMillis();
                         quickSort(pelis, 0, pelis.length - 1);
                         endTime = (System.currentTimeMillis() - startTime);
                         System.out.println(contq + " endetime: " + endTime);
-
+                        contq = 0;
                         break;
                     case 3:
                         startTime = System.currentTimeMillis();
                         insertionSort(pelis);
                         endTime = (System.currentTimeMillis() - startTime);
-                        System.out.println(contiO + " endetime: " + endTime);
-
+                        if (tipo != 1) {
+                            System.out.println(contiM + " endetime: " + endTime);
+                        } else {
+                            System.out.println(contiO + " endetime: " + endTime);
+                        }
+                        contiM = 0;
+                        contiO = 0;
                         break;
                     case 4:
                         startTime = System.currentTimeMillis();
                         selectionSort(pelis);
                         endTime = (System.currentTimeMillis() - startTime);
                         System.out.println(conts + " endetime: " + endTime);
-
+                        conts = 0;
                         break;
                 }
 
@@ -292,6 +299,66 @@ public class PeliculasMain extends Sorts {
         }
     }
 
+    public static void resultadosRevolver(Peliculas[] pelis) {
+        String tipo = null;
+        for (int i = 0; i < 5; i++) {
+            int contComparacion = 0, contTiempo = 0;
+            for (int j = 0; j < 100; j++) {
+                revolverArreglo(pelis);
+                switch (i) {
+                    case 0:
+                        tipo = "Bubble Sort";
+                        long startTime = System.currentTimeMillis();
+                        bubbleSort(pelis);
+                        long endTime = (System.currentTimeMillis() - startTime);
+                        contTiempo += endTime;
+                        contComparacion += contb;
+                        contb = 0;
+                        break;
+                    case 1:
+                        tipo = "Merge Sort";
+                        startTime = System.currentTimeMillis();
+                        mergeSort(pelis, 0, pelis.length - 1);
+                        endTime = (System.currentTimeMillis() - startTime);
+                        contTiempo += endTime;
+                        contComparacion += contm;
+                        contm = 0;
+                        break;
+                    case 2:
+                        tipo = "Quick Sort";
+                        startTime = System.currentTimeMillis();
+                        quickSort(pelis, 0, pelis.length - 1);
+                        endTime = (System.currentTimeMillis() - startTime);
+                        contTiempo += endTime;
+                        contComparacion += contq;
+                        contq = 0;
+                        break;
+                    case 3:
+                        tipo = "Insertion Sort";
+                        startTime = System.currentTimeMillis();
+                        insertionSort(pelis);
+                        endTime = (System.currentTimeMillis() - startTime);
+                        contTiempo += endTime;
+                        contComparacion += contiO;
+                        contiO = 0;
+                        break;
+                    case 4:
+                        tipo = "Selection Sort";
+                        startTime = System.currentTimeMillis();
+                        selectionSort(pelis);
+                        endTime = (System.currentTimeMillis() - startTime);
+                        contTiempo += endTime;
+                        contComparacion += conts;
+                        conts = 0;
+                        break;
+                }
+            }
+
+            System.out
+                    .println("tipo: " + tipo + " pasos: " + (contComparacion / 30) + " endetime: " + (contTiempo / 30));
+        }
+    }
+
     public static void main(String[] args) {
         try {
             ArrayList<Peliculas> arr = new ArrayList<>();
@@ -302,7 +369,6 @@ public class PeliculasMain extends Sorts {
             String titulo;
 
             while ((line = lector.readLine()) != null) {
-                line = lector.readLine();
                 int lugar = line.indexOf(",");
                 clave = Integer.parseInt(line.substring(0, lugar));
                 int lugar2 = line.indexOf(",", lugar + 1);
@@ -311,14 +377,10 @@ public class PeliculasMain extends Sorts {
                 arr.add(new Peliculas(clave, anio, titulo));
             }
 
-            System.out.println("Ordenado ");
-            ejercicio(pelis, arr, 1);
-
-            System.out.println("\nInvertido ");
-            ejercicio(pelis, arr, 2);
-
             System.out.println("\nRevuelto ");
-            ejercicio(pelis, arr, 3);
+            pelis = meter(14000, arr);
+            resultadosRevolver(pelis);
+
             lector.close();
 
         }

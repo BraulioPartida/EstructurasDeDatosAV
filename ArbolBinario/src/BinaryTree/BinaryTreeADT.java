@@ -1,5 +1,5 @@
+package BinaryTree;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public interface BinaryTreeADT<T> {
@@ -7,12 +7,16 @@ public interface BinaryTreeADT<T> {
 
     public int size();
 
-    public boolean find(T elemento);
+    public boolean contains(T elemento);
+
+    public int height();
 
     public Iterator<T> preOrder();
 
     public Iterator<T> postOrder();
 
     public Iterator<T> inOrder();
+
+    public Iterator<T> levelOrder();
 
 }

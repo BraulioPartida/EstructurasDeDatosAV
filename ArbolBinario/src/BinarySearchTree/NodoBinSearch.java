@@ -10,23 +10,4 @@ public class NodoBinSearch<T extends Comparable<T>> extends BinaryTree.NodoBin<T
         super(elemento, padre);
     }
 
-    public void hang(NodoBinSearch<T> hijo) {
-        if (hijo.getElement().compareTo(this.getElement()) <= 0) {
-            this.setLeft(hijo);
-        } else {
-            this.setRight(hijo);
-        }
-    }
-
-    public void hangAVL(NodoBinSearch<T> hijo, char direccion) {
-        if (direccion == 'I') {
-            this.setLeft(hijo);
-        } else {
-            this.setRight(hijo);
-        }
-        if (hijo != null) {
-            hijo.setPadre(this);
-        }
-    }
-
 }

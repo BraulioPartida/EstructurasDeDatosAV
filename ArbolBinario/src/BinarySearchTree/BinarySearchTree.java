@@ -37,7 +37,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.Linked
         size++;
     }
 
-    public NodoBinSearch<T> find(T element) {
+    public NodoBinSearch<T> search(T element) {
         NodoBinSearch<T> aux = root;
         while (aux != null && aux.getElement().compareTo(element) != 0) {
             if (element.compareTo(aux.getElement()) < 0) {
@@ -85,6 +85,24 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.Linked
             }
         }
         return null;
+    }
+
+    public void hang(NodoBinSearch<T> hijo, NodoBinSearch<T> padre) {
+        if (hijo.getElement().compareTo(padre.getElement()) <= 0) {
+            padre.setLeft(hijo);
+        } else {
+            padre.setRight(hijo);
+        }
+        hijo.setFather(padre);
+    }
+
+    public void hang(NodoBinSearch<T> hijo, NodoBinSearch<T> padre, boolean dirrecion) {
+        if (dirrecion) {
+            padre.setRight(hijo);
+        } else {
+            padre.setLeft(hijo);
+        }
+        hijo.setFather(padre);
     }
 
 }

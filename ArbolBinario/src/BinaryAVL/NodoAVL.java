@@ -24,4 +24,12 @@ public class NodoAVL<T extends Comparable<T>> extends BinarySearchTree.NodoBinSe
         this.balanceFactor = balanceFactor;
     }
 
+    public void incBF() {
+        balanceFactor++;
+    }
+
+    public void decBF() {
+        balanceFactor--;
+    }
+
 }

@@ -37,7 +37,7 @@ public class NodoBin<T> {
         return der;
     }
 
-    public NodoBin<T> getPadre() {
+    public NodoBin<T> getFather() {
         return padre;
     }
 
@@ -45,7 +45,7 @@ public class NodoBin<T> {
         this.izq = izq;
     }
 
-    public void setPadre(NodoBin<T> padre) {
+    public void setFather(NodoBin<T> padre) {
         this.padre = padre;
     }
 

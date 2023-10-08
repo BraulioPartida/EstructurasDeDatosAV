@@ -71,4 +71,20 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.Linked
         return aux.getElement();
     }
 
+    public T antecesorComun(NodoBinSearch<T> nodo1, NodoBinSearch<T> nodo2) {
+        NodoBinSearch<T> aux = root;
+        while (aux != null) {
+            if (nodo1.getElement().compareTo(aux.getElement()) < 0
+                    && nodo2.getElement().compareTo(aux.getElement()) < 0) {
+                aux = (NodoBinSearch<T>) aux.getLeft();
+            } else if (nodo1.getElement().compareTo(aux.getElement()) > 0
+                    && nodo2.getElement().compareTo(aux.getElement()) > 0) {
+                aux = (NodoBinSearch<T>) aux.getRight();
+            } else {
+                return aux.getElement();
+            }
+        }
+        return null;
+    }
+
 }

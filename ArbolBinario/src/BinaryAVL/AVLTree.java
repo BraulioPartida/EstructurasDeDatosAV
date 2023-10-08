@@ -39,8 +39,21 @@ public class AVLTree<T extends Comparable<T>> extends BinarySearchTree.BinarySea
             }
             size++;
             NodoAVL<T> padre = (NodoAVL<T>) nuevo.getPadre();
-            // Hacer la parte de balanceo
+            updateBalanceFactor(nuevo);
+            while (padre != null) {
+                updateBalanceFactor(padre);
+                if (padre.getBalanceFactor() >= 2 || padre.getBalanceFactor() <= -2) {
+                    balance(padre);
+                }
+                padre = (NodoAVL<T>) padre.getPadre();
+            }
+
         }
+
+    }
+
+    public void updateBalanceFactor(NodoAVL<T> nodo) {
+        nodo.setBalanceFactor(height(nodo.getLeft()) - height(nodo.getRight()));
     }
 
 }

@@ -1,5 +1,4 @@
 public class Sorts {
-    private static int quickCont = 0;
 
     public static <T extends Comparable<T>> void quickSort(T[] datos, int inicio, int fin) {
         if (inicio < fin) {
@@ -15,7 +14,6 @@ public class Sorts {
         int i = (inicio - 1);
 
         for (int j = inicio; j < fin; j++) {
-            quickCont += 2;
             if (arr[j].compareTo(pivote) < 0) {
                 i++;
 
@@ -114,7 +112,7 @@ public class Sorts {
         int tamañoDerecha = fin - mitad;
 
         T[] izquierda = (T[]) new Comparable[tamañoIzq];
-        T[] derecha= (T[]) new Comparable[tamañoDerecha];
+        T[] derecha = (T[]) new Comparable[tamañoDerecha];
 
         for (int i = 0; i < tamañoIzq; ++i) {
             izquierda[i] = arr[inicio + i];

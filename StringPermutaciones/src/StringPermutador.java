@@ -16,9 +16,18 @@ public class StringPermutador {
         }
     }
 
+    public static int calcularFactorialRecur(int n) {
+        if (n <= 1) {
+            return 1;
+        } else {
+            return n * calcularFactorialRecur(n - 1);
+        }
+
+    }
+
     public static void permute(String str, int left, int right) {
         if (left == right) {
-
+            return;
         } else {
             for (int i = left; i <= right; i++) {
                 str = swap(str, left, i);
@@ -50,10 +59,11 @@ public class StringPermutador {
 
     public static void main(String[] args) {
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1; i++) {
             String input = randomString(i);
             permute(input, 0, input.length() - 1);
-            System.out.println(calcularFactorial(i) + " " + x);
+            System.out.println(calcularFactorial(6) + " " + x);
+            System.out.println(calcularFactorialRecur(6));
         }
     }
 }

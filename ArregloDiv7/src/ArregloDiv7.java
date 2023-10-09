@@ -1,4 +1,4 @@
-public class ArregloDiv7 {
+public class ArregloDiv7{
 
     // Una funcion que cuente la cantidad de pasos que le toma encontrar el
     // numero divisible entre 7 en un arreglo de enteros

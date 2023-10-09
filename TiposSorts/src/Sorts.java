@@ -113,8 +113,8 @@ public class Sorts {
         int tamañoIzq = mitad - inicio + 1;
         int tamañoDerecha = fin - mitad;
 
-        T izquierda[] = (T[]) new Comparable[tamañoIzq];
-        T derecha[] = (T[]) new Comparable[tamañoDerecha];
+        T[] izquierda = (T[]) new Comparable[tamañoIzq];
+        T[] derecha= (T[]) new Comparable[tamañoDerecha];
 
         for (int i = 0; i < tamañoIzq; ++i) {
             izquierda[i] = arr[inicio + i];
@@ -151,9 +151,8 @@ public class Sorts {
         }
     }
 
-    public static void main(String[] args) {
+    public static <T> void main(String[] args) {
         Integer[] arr = { 64, 34, 25, 12, 22, 11, 90 };
-
         for (Integer integer : arr) {
             System.out.print(integer + " ");
         }

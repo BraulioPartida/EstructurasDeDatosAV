@@ -11,15 +11,15 @@ public class AVLTree<T extends Comparable<T>> extends BinarySearchTree.BinarySea
     }
 
     @Override
-    public void insert(T elemento) {
-        NodoAVL<T> nuevo = new NodoAVL<>(elemento);
+    public void insert(T element) {
+        NodoAVL<T> nuevo = new NodoAVL<>(element);
         if (isEmpty()) {
             root = nuevo;
         } else {
             NodoAVL<T> aux = root;
             boolean insertado = false;
             while (!insertado) {
-                if (elemento.compareTo(aux.getElement()) <= 0) {
+                if (element.compareTo(aux.getElement()) <= 0) {
                     if (aux.getLeft() == null) {
                         aux.setLeft(nuevo);
                         nuevo.setFather(aux);
@@ -63,8 +63,8 @@ public class AVLTree<T extends Comparable<T>> extends BinarySearchTree.BinarySea
 
     }
 
-    public boolean remove(T elemento) {
-        NodoAVL<T> nodoR = (NodoAVL<T>) search(elemento);
+    public boolean remove(T element) {
+        NodoAVL<T> nodoR = (NodoAVL<T>) search(element);
         if (nodoR == null) {
             return false;
         }

@@ -3,8 +3,6 @@ package BinarySearchTree;
 public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.LinkedBinaryTree<T>
         implements BinarySearchTreeADT<T> {
 
-    private NodoBinSearch<T> root;
-
     public BinarySearchTree() {
         super();
     }
@@ -14,7 +12,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.Linked
         if (isEmpty()) {
             root = nuevo;
         } else {
-            NodoBinSearch<T> aux = root;
+            NodoBinSearch<T> aux = (NodoBinSearch<T>) root;
             boolean insertado = false;
             while (!insertado) {
                 if (elemento.compareTo(aux.getElement()) <= 0) {
@@ -38,7 +36,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.Linked
     }
 
     public NodoBinSearch<T> search(T element) {
-        NodoBinSearch<T> aux = root;
+        NodoBinSearch<T> aux = (NodoBinSearch<T>) root;
         while (aux != null && aux.getElement().compareTo(element) != 0) {
             if (element.compareTo(aux.getElement()) < 0) {
                 aux = (NodoBinSearch<T>) aux.getLeft();
@@ -50,7 +48,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.Linked
     }
 
     public T findMin() {
-        NodoBinSearch<T> aux = root;
+        NodoBinSearch<T> aux = (NodoBinSearch<T>) root;
         if (isEmpty()) {
             return null;
         }
@@ -61,7 +59,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.Linked
     }
 
     public T findMax() {
-        NodoBinSearch<T> aux = root;
+        NodoBinSearch<T> aux = (NodoBinSearch<T>) root;
         if (isEmpty()) {
             return null;
         }
@@ -72,7 +70,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.Linked
     }
 
     public T antecesorComun(NodoBinSearch<T> nodo1, NodoBinSearch<T> nodo2) {
-        NodoBinSearch<T> aux = root;
+        NodoBinSearch<T> aux = (NodoBinSearch<T>) root;
         while (aux != null) {
             if (nodo1.getElement().compareTo(aux.getElement()) < 0
                     && nodo2.getElement().compareTo(aux.getElement()) < 0) {
@@ -93,7 +91,10 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.Linked
         } else {
             padre.setRight(hijo);
         }
-        hijo.setFather(padre);
+        if (hijo != null) {
+            hijo.setFather(padre);
+
+        }
     }
 
     public void hang(NodoBinSearch<T> hijo, NodoBinSearch<T> padre, boolean dirrecion) {
@@ -102,7 +103,10 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree.Linked
         } else {
             padre.setLeft(hijo);
         }
-        hijo.setFather(padre);
+        if (hijo != null) {
+            hijo.setFather(padre);
+
+        }
     }
 
 }

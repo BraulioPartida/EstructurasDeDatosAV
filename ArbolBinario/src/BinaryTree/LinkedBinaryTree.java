@@ -7,7 +7,7 @@ import java.util.Queue;
 
 public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
-    private NodoBin<T> root;
+    protected NodoBin<T> root;
     protected int size;
 
     public LinkedBinaryTree() {

@@ -1,6 +1,9 @@
 package BinaryAVL;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * AVLTree
@@ -252,49 +255,38 @@ public class AVLTree<T extends Comparable<T>> extends BinarySearchTree.BinarySea
         }
     }
 
-    public void imprimirArbolEnOrden() {
-        Iterator<T> it = levelOrder();
-        AVLTree<T> abeto = new AVLTree<>();
-
-        while (it.hasNext()) {
-            abeto.insert(it.next());
-        }
-
-        imprimirArbolEnOrden((NodoAVL<T>) abeto.root, 0);
-
-    }
-
-    private void imprimirArbolEnOrden(NodoAVL<T> nodo, int nivel) {
-        if (nodo != null) {
-            imprimirArbolEnOrden((NodoAVL<T>) nodo.getRight(), nivel + 1);
-            for (int i = 0; i < nivel; i++) {
-                System.out.print("    ");
+    public ArrayList<String> elementAndBF() {
+        Queue<NodoAVL<T>> cola = new LinkedList<>();
+        ArrayList<String> arr = new ArrayList<>();
+        cola.add((NodoAVL<T>) root);
+        while (!cola.isEmpty()) {
+            NodoAVL<T> nodo = cola.remove();
+            arr.add("(" + nodo.getElement() + ", BF:" + nodo.getBalanceFactor() + ")");
+            if (nodo.getLeft() != null) {
+                cola.add((NodoAVL<T>) nodo.getLeft());
             }
-            System.out.println(nodo.getElement());
-            imprimirArbolEnOrden((NodoAVL<T>) nodo.getLeft(), nivel + 1);
+            if (nodo.getRight() != null) {
+                cola.add((NodoAVL<T>) nodo.getRight());
+            }
         }
+        return arr;
     }
 
     public static void main(String[] args) {
         AVLTree<Integer> arbol = new AVLTree<>();
-        arbol.insert(10);
+
         arbol.insert(5);
-        arbol.insert(15);
         arbol.insert(3);
         arbol.insert(7);
-        arbol.insert(13);
-        arbol.insert(17);
-        arbol.insert(2);
-        arbol.insert(4);
         arbol.insert(6);
-        arbol.insert(8);
-        arbol.insert(12);
-        arbol.insert(14);
-        arbol.insert(16);
-        arbol.insert(18);
-        arbol.insert(1);
 
-        arbol.imprimirArbolEnOrden();
+        arbol.insert(2);
+        arbol.insert(1);
+        arbol.insert(8);
+        arbol.remove(7);
+
+        System.out.println(arbol.elementAndBF().toString());
+        arbol.printGraph();
 
     }
 }

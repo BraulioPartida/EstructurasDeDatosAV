@@ -114,4 +114,48 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
         return 1 + Math.max(height(nodo.getLeft()), height(nodo.getRight()));
     }
 
+    public void printGraph() {
+        printGraph(root, 0);
+    }
+
+    private void printGraph(NodoBin<T> nodo, int nivel) {
+        if (nodo != null) {
+            printGraph((NodoBin<T>) nodo.getRight(), nivel + 1);
+            for (int i = 0; i < nivel; i++) {
+                System.out.print("    ");
+            }
+            System.out.println(nodo.getElement());
+            printGraph((NodoBin<T>) nodo.getLeft(), nivel + 1);
+
+        }
+    }
+
+    public void printLevelOrder() {
+        Iterator<T> it = levelOrder();
+        while (it.hasNext()) {
+            System.out.print(it.next() + " ");
+        }
+    }
+
+    public void printPreOrder() {
+        Iterator<T> it = preOrder();
+        while (it.hasNext()) {
+            System.out.print(it.next() + " ");
+        }
+    }
+
+    public void printPostOrder() {
+        Iterator<T> it = postOrder();
+        while (it.hasNext()) {
+            System.out.print(it.next() + " ");
+        }
+    }
+
+    public void printInOrder() {
+        Iterator<T> it = inOrder();
+        while (it.hasNext()) {
+            System.out.print(it.next() + " ");
+        }
+    }
+
 }

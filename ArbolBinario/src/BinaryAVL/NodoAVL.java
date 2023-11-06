@@ -1,35 +1,64 @@
 package BinaryAVL;
 
-/**
- * NodoAVL
- */
-public class NodoAVL<T extends Comparable<T>> extends BinarySearchTree.NodoBinSearch<T> {
-    private int balanceFactor;
+class NodoAVL<T extends Comparable<T>> {
+    private T data;
+    private int height;
+    private NodoAVL<T> left;
+    private NodoAVL<T> right;
 
-    public NodoAVL(T elemento) {
-        super(elemento);
-        balanceFactor = 0;
+    NodoAVL(T data) {
+        this.data = data;
+        this.height = 0;
+        this.left = null;
+        this.right = null;
     }
 
-    public NodoAVL(T elemento, NodoAVL<T> padre) {
-        super(elemento, padre);
-        balanceFactor = 0;
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public NodoAVL<T> getLeft() {
+        return left;
+    }
+
+    public void setLeft(NodoAVL<T> left) {
+        this.left = left;
+    }
+
+    public NodoAVL<T> getRight() {
+        return right;
+    }
+
+    public void setRight(NodoAVL<T> right) {
+        this.right = right;
+    }
+
+    public int height() {
+
+        return height;
+    }
+
+    public void updateHeight() {
+        int leftHeight = (left != null) ? left.height : 0;
+        int rightHeight = (right != null) ? right.height : 0;
+        height = Math.max(leftHeight, rightHeight) + 1;
     }
 
     public int getBalanceFactor() {
-        return balanceFactor;
+        int leftHeight = (left != null) ? left.height : 0;
+        int rightHeight = (right != null) ? right.height : 0;
+        return leftHeight - rightHeight;
     }
-
-    public void setBalanceFactor(int balanceFactor) {
-        this.balanceFactor = balanceFactor;
-    }
-
-    public void incBF() {
-        balanceFactor++;
-    }
-
-    public void decBF() {
-        balanceFactor--;
-    }
-
 }

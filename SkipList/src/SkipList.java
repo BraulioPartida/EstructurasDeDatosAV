@@ -1,119 +1,146 @@
 public class SkipList<T extends Comparable<T>> {
-    NodoSkip<T> head, tail;
-    int maxLevel, size, currentLevel;
+    NodoSkip<T> cabeza;
+    NodoSkip<T> cola;
+    int niveles, cant;
 
     public SkipList() {
-        head = new NodoSkip<T>(null);
-        tail = new NodoSkip<T>(null);
-        head.right = tail;
-        tail.left = head;
-        maxLevel = 0;
-        size = 0;
-        currentLevel = 0;
+        cabeza = new NodoSkip<T>(null);
+        cola = new NodoSkip<T>(null);
+        cabeza.setDer(cola);
+        cola.setIzq(cabeza);
+        niveles = 1;
+        cant = 0;
     }
 
-    public void insert(T element) {
-        NodoSkip<T> aux = search(element);
-        if (aux.element != null && aux.element.compareTo(element) == 0) {
-            return;
+    private NodoSkip<T> buscarPr(T elem) {
+        int i;
+        NodoSkip<T> actual = cabeza;
+        for (i = 1; i <= niveles; i++) {
+            while (actual.getDer().getElem() != null && actual.getDer().getElem().compareTo(elem) <= 0)
+                actual = actual.getDer();
+            if (i < niveles)
+                actual = actual.getAba();
         }
-        NodoSkip<T> newNode = new NodoSkip<T>(element);
-        newNode.left = aux;
-        newNode.right = aux.right;
-        aux.right.left = newNode;
-        aux.right = newNode;
+        return actual;
+    }
+
+    public boolean buscar(T elem) {
+        NodoSkip<T> actual = buscarPr(elem);
+        boolean resp = false;
+        if (actual.getElem() != null && actual.getElem().equals(elem))
+            resp = true;
+        return resp;
+    }
+
+    public boolean borrar(T elem) {
+        NodoSkip<T> actual = buscarPr(elem);
+        boolean resp = false;
+        if (actual.getElem() != null && actual.getElem().equals(elem)) {
+            resp = true;
+            cant--;
+            actual.getIzq().setDer(actual.getDer());
+            actual.getDer().setIzq(actual.getIzq());
+            while (actual.getArr() != null) {
+                actual = actual.getArr();
+                actual.getIzq().setDer(actual.getDer());
+                actual.getDer().setIzq(actual.getIzq());
+            }
+
+        }
+        return resp;
+    }
+
+    public void agregaNivel() {
+        niveles++;
+        NodoSkip<T> cabezaAnterior = cabeza;
+        NodoSkip<T> nuevaCabeza = new NodoSkip<T>(null);
+        NodoSkip<T> colaAnterior = cola;
+        NodoSkip<T> nuevaCola = new NodoSkip<T>(null);
+        cabezaAnterior.setArr(nuevaCabeza);
+        colaAnterior.setArr(nuevaCola);
+        nuevaCabeza.setAba(cabezaAnterior);
+        nuevaCola.setAba(colaAnterior);
+        nuevaCabeza.setDer(nuevaCola);
+        nuevaCola.setIzq(nuevaCabeza);
+        cabeza = nuevaCabeza;
+        cola = nuevaCola;
+    }
+
+    public void inserta(T elem) {
+        NodoSkip<T> actual = buscarPr(elem);
+        NodoSkip<T> nuevo = new NodoSkip<T>(elem);
+        cant++;
+        nuevo.setIzq(actual);
+        nuevo.setDer(actual.getDer());
+        actual.setDer(nuevo);
+        nuevo.getDer().setIzq(nuevo);
+        int i = 1;
+        while (Math.random() > 0.5 && niveles < Math.log10(cant) / Math.log10(2)) {
+            if (i >= niveles)
+                agregaNivel();
+
+            while (actual.getArr() == null)
+                actual = actual.getIzq();
+            actual = actual.getArr();
+            NodoSkip<T> nuevoArr = new NodoSkip<T>(elem);
+            nuevoArr.setIzq(actual);
+            nuevoArr.setDer(actual.getDer());
+            actual.setDer(nuevoArr);
+            nuevoArr.getDer().setIzq(nuevoArr);
+            nuevoArr.setAba(nuevo);
+            nuevo.setArr(nuevoArr);
+            nuevo = nuevoArr;
+            i++;
+        }
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        NodoSkip<T> current = cabeza;
+
+        while (current != null) {
+            NodoSkip<T> temp = current;
+            while (temp != null) {
+                if (temp.getElem() != null) {
+                    sb.append(temp.getElem().toString());
+                } else {
+                    sb.append("null");
+                }
+                sb.append(" -> ");
+                temp = temp.getDer();
+            }
+            sb.append("\n");
+            current = current.getAba();
+        }
+
+        return sb.toString();
+    }
+
+    public void printLevelCounts() {
+        NodoSkip<T> currentLevel = cabeza;
         int level = 0;
-        while (Math.random() < 0.5) {
+        while (currentLevel != null) {
+            int count = 0;
+            NodoSkip<T> currentNode = currentLevel;
+            while (currentNode != null) {
+                count++;
+                currentNode = currentNode.getDer();
+            }
+            System.out.println("nivel " + (niveles - level) + ": " + count + " nodes");
             level++;
+            currentLevel = currentLevel.getAba();
         }
-        if (level > maxLevel) {
-            maxLevel = level;
-            NodoSkip<T> newHead = new NodoSkip<T>(null);
-            NodoSkip<T> newTail = new NodoSkip<T>(null);
-            newHead.right = newTail;
-            newHead.down = head;
-            head.up = newHead;
-            newTail.left = newHead;
-            newTail.down = tail;
-            tail.up = newTail;
-            head = newHead;
-            tail = newTail;
-            currentLevel++;
-            aux = head;
-            while (aux != null) {
-                aux.level++;
-                aux = aux.right;
-            }
-        }
-        NodoSkip<T> up = null;
-        aux = newNode;
-        while (level >= 0) {
-            while (aux.left.up == null) {
-                aux = aux.left;
-            }
-            up = aux.left.up;
-            NodoSkip<T> newUp = new NodoSkip<T>(element);
-            newUp.left = up;
-            newUp.right = up.right;
-            up.right.left = newUp;
-            up.right = newUp;
-            newUp.down = newNode;
-            newNode.up = newUp;
-            newNode = newUp;
-            level--;
-        }
-        size++;
     }
 
-    public NodoSkip<T> search(T element) {
-        NodoSkip<T> aux = head;
-        while (true) {
+    public static void main(String[] args) {
 
-            while (aux.right.element != null && aux.right.element.compareTo(element) <= 0) {
-                aux = aux.right;
-            }
-            if (aux.down != null) {
-                aux = aux.down;
-            } else {
-                break;
-            }
-        }
-        return aux;
-    }
-
-    public void delete(T element) {
-        NodoSkip<T> aux = search(element);
-        if (aux.element.compareTo(element) == 0) {
-            while (aux != null) {
-                aux.left.right = aux.right;
-                aux.right.left = aux.left;
-                aux = aux.up;
-            }
-            size--;
+        for (int i = 0; i < 1; i++) {
+            SkipList<Integer> skipList = new SkipList<Integer>();
+            for (int j = 1; j <= 1022; j++)
+                skipList.inserta(j);
+            skipList.printLevelCounts();
         }
 
-        if (currentLevel > Math.log(size + 1) + 1) {
-            head = head.down;
-            tail = tail.down;
-            aux = head;
-            while (aux != null) {
-                aux.level--;
-                aux = aux.right;
-            }
-            currentLevel--;
-        }
-
-    }
-
-    public void deleteLevel(int level) {
-        NodoSkip<T> aux = head;
-        while (aux != null) {
-            if (aux.level == level) {
-                aux.left.right = aux.right;
-                aux.right.left = aux.left;
-            }
-            aux = aux.right;
-        }
     }
 
 }
